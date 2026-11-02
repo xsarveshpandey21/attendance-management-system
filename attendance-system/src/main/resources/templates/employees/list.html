@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Employees')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container">
+    <div class="row">
+        <h1>Employees</h1>
+        <a class="btn" th:href="@{/employees/new}">+ Add Employee</a>
+    </div>
+    <div class="flash" th:if="${message}" th:text="${message}"></div>
+    <table>
+        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Department</th><th>Actions</th></tr></thead>
+        <tbody>
+        <tr th:each="e : ${employees}">
+            <td th:text="${e.id}"></td>
+            <td th:text="${e.name}"></td>
+            <td th:text="${e.email}"></td>
+            <td th:text="${e.department}"></td>
+            <td class="actions">
+                <a class="btn small" th:href="@{/employees/{id}/edit(id=${e.id})}">Edit</a>
+                <a class="btn small secondary" th:href="@{/attendance/report(employeeId=${e.id})}">History</a>
+                <form th:action="@{/employees/{id}/delete(id=${e.id})}" method="post"
+                      onsubmit="return confirm('Delete this employee and all their attendance records?');">
+                    <button class="btn small danger" type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(employees)}"><td colspan="5" class="muted">No employees yet. Add one to get started.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Employee')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container narrow">
+    <h1 th:text="${employee.id == null} ? 'Add Employee' : 'Edit Employee'">Employee</h1>
+    <form th:action="@{/employees}" th:object="${employee}" method="post" class="form">
+        <input type="hidden" th:field="*{id}">
+        <label>Name
+            <input type="text" th:field="*{name}">
+            <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </label>
+        <label>Email
+            <input type="text" th:field="*{email}">
+            <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </label>
+        <label>Department
+            <input type="text" th:field="*{department}">
+            <span class="error" th:if="${#fields.hasErrors('department')}" th:errors="*{department}"></span>
+        </label>
+        <div>
+            <button class="btn" type="submit">Save</button>
+            <a class="btn secondary" th:href="@{/employees}">Cancel</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

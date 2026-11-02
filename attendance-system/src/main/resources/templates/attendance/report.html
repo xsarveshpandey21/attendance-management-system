@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Reports')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container">
+    <h1>Attendance Report</h1>
+    <form th:action="@{/attendance/report}" method="get" class="inline-form">
+        <label>Employee
+            <select name="employeeId">
+                <option value="">All employees</option>
+                <option th:each="e : ${employees}" th:value="${e.id}" th:text="${e.name}"
+                        th:selected="${e.id == employeeId}"></option>
+            </select>
+        </label>
+        <label>From <input type="date" name="from" th:value="${from}"></label>
+        <label>To <input type="date" name="to" th:value="${to}"></label>
+        <button class="btn" type="submit">Filter</button>
+    </form>
+
+    <div class="cards">
+        <div class="card green"><h3>Present</h3><p class="big" th:text="${presentCount}">0</p></div>
+        <div class="card red"><h3>Absent</h3><p class="big" th:text="${absentCount}">0</p></div>
+        <div class="card amber"><h3>Leave</h3><p class="big" th:text="${leaveCount}">0</p></div>
+    </div>
+
+    <table>
+        <thead><tr><th>Date</th><th>Employee</th><th>Department</th><th>Status</th></tr></thead>
+        <tbody>
+        <tr th:each="a : ${records}">
+            <td th:text="${a.date}"></td>
+            <td th:text="${a.employee.name}"></td>
+            <td th:text="${a.employee.department}"></td>
+            <td><span class="badge" th:classappend="${a.status.name().toLowerCase()}" th:text="${a.status}"></span></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(records)}"><td colspan="4" class="muted">No records for this selection.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

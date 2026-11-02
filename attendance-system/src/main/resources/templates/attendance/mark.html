@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Mark Attendance')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container">
+    <h1>Mark Attendance</h1>
+    <div class="flash" th:if="${message}" th:text="${message}"></div>
+
+    <form th:action="@{/attendance/mark}" method="get" class="inline-form">
+        <label>Date <input type="date" name="date" th:value="${date}" onchange="this.form.submit()"></label>
+    </form>
+
+    <p th:if="${#lists.isEmpty(employees)}" class="muted">
+        No employees found. <a th:href="@{/employees/new}">Add employees</a> first.
+    </p>
+
+    <form th:action="@{/attendance/mark}" method="post" th:unless="${#lists.isEmpty(employees)}">
+        <input type="hidden" name="date" th:value="${date}">
+        <table>
+            <thead><tr><th>Employee</th><th>Department</th><th>Present</th><th>Absent</th><th>Leave</th></tr></thead>
+            <tbody>
+            <tr th:each="e : ${employees}">
+                <td th:text="${e.name}"></td>
+                <td th:text="${e.department}"></td>
+                <td><input type="radio" th:name="'status_' + ${e.id}" value="PRESENT" th:checked="${statusMap.get(e.id) == 'PRESENT'}"></td>
+                <td><input type="radio" th:name="'status_' + ${e.id}" value="ABSENT"  th:checked="${statusMap.get(e.id) == 'ABSENT'}"></td>
+                <td><input type="radio" th:name="'status_' + ${e.id}" value="LEAVE"   th:checked="${statusMap.get(e.id) == 'LEAVE'}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="btn" type="submit">Save Attendance</button>
+    </form>
+</main>
+</body>
+</html>

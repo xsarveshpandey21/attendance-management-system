@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' | Attendance System'">Attendance System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:fragment="nav" class="nav">
+    <span class="brand">&#128197; Attendance System</span>
+    <a th:href="@{/}">Dashboard</a>
+    <a th:href="@{/employees}">Employees</a>
+    <a th:href="@{/attendance/mark}">Mark Attendance</a>
+    <a th:href="@{/attendance/report}">Reports</a>
+</nav>
+</body>
+</html>

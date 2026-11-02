@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container">
+    <h1>Dashboard</h1>
+    <p class="muted">Today: <span th:text="${#temporals.format(today, 'EEEE, dd MMM yyyy')}"></span></p>
+    <div class="cards">
+        <div class="card"><h3>Total Employees</h3><p class="big" th:text="${totalEmployees}">0</p></div>
+        <div class="card green"><h3>Present Today</h3><p class="big" th:text="${present}">0</p></div>
+        <div class="card red"><h3>Absent Today</h3><p class="big" th:text="${absent}">0</p></div>
+        <div class="card amber"><h3>On Leave</h3><p class="big" th:text="${leave}">0</p></div>
+    </div>
+    <a class="btn" th:href="@{/attendance/mark}">Mark today's attendance</a>
+</main>
+</body>
+</html>
